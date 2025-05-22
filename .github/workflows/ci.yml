@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]  # main ブランチへの push で実行
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 例1: Java + Maven プロジェクトの場合 --------------------
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build with Maven
+        run: mvn -B verify
+      # ----------------------------------------------------------
+
+      # 例2: 単なる Hello World だけで良いなら下記でも可 ------
+      # - name: Hello
+      #   run: echo "Hello GitHub Actions"
+      # ----------------------------------------------------------
